@@ -5,7 +5,8 @@ from controller import *
 import os
 
 
-number_of_people_in_bank=dict()
+number_of_people_in_bank = dict()
+
 
 def dir_last_updated(folder):
     return str(
@@ -21,16 +22,18 @@ def dir_last_updated(folder):
 def testing_route():
     return json.dumps("WORKS")
 
-@app.route("/update_number_of_people_info")
+
+@app.route("/api/update_number_of_people_info")
 def update_people_info():
     global number_of_people_in_bank
     data = json.loads(request.get_json())
-    id=data["id"]
-    total=data["total"]
-    number_of_people_in_bank[id]=total
+    id = data["id"]
+    total = data["total"]
+    number_of_people_in_bank[id] = total
 
 
-@app.route("/get_points", methods=["POST", "GET"])
+@app.route("/api/get_points", methods=["POST", "GET"])
+@cross_origin()
 def get_best_points():
     data = json.loads(request.get_json())
     if "usd_available" in data:
@@ -40,9 +43,7 @@ def get_best_points():
     if "euro_available" in data:
         euro_available = True
     else:
-        euro_available = None
-    latitude = data["latitude"]
-    longitude = data["longitude"]
+        euro_available = None 
     if "offset" in data:
         offset = data["offset"]
     else:
@@ -51,6 +52,8 @@ def get_best_points():
         limit = data["limit"]
     else:
         limit = 15
+    latitude = data["latitude"]
+    longitude = data["longitude"]
     banks = find_nearest_banks(
         latitude=latitude,
         longitude=longitude,
@@ -59,9 +62,10 @@ def get_best_points():
         euro_available=euro_available,
         usd_available=usd_available,
     )
-    
+
     for bank in banks:
-        bank["number_of_people"]=number_of_people_in_bank[bank["id"]]
-
-
+        try:  
+            bank["number_of_people"] = number_of_people_in_bank[bank["id"]]
+        except:
+            bank["number_of_people"] = 0
     return json.dumps(banks)

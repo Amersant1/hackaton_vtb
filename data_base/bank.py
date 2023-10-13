@@ -1,4 +1,4 @@
-"""РАБОТА С МОДЕЛЬЮ ЮЗЕР ИЗ БД"""
+"""РАБОТА С МОДЕЛЬЮ Bank ИЗ БД"""
 from controller import *
 from sqlalchemy import desc
 
@@ -24,15 +24,15 @@ def find_nearest_banks(
         filters.append(Bank.usd_available == True)
     if euro_available:
         filters.append(Bank.euro_available == True)
-    filters = tuple(filters)
-    if filters:
+    filters = tuple(filters)#создаем фильтры для бд исходя аргументов, переданных в функцию
+    if filters:#получаем limit отделений и банкоматов 
         banks = (
             _session.query(Bank)
             .filter(filters)
             .order_by(
                 (Bank.latitude - latitude) * (Bank.latitude - latitude)
                 + (Bank.longitude - longitude) * (Bank.longitude - longitude)
-            )
+            )#сортируем по расстоянию от юзера до отделения/банкомата
             .offset(offset)
             .limit(limit)
         )
@@ -42,13 +42,13 @@ def find_nearest_banks(
             .order_by(
                 (Bank.latitude - latitude) * (Bank.latitude - latitude)
                 + (Bank.longitude - longitude) * (Bank.longitude - longitude)
-            )
+            )#сортируем по расстоянию от юзера до отделения/банкомата
             .offset(offset)
             .limit(limit)
         )
     banks = list(banks)
     for i in range(len(banks)):
-        banks[i] = banks[i].__dict__
+        banks[i] = banks[i].__dict__ #превращаем объект в словарь и удаляем ненужный ключ 
         del banks[i]["_sa_instance_state"]
     _session.close()
 
