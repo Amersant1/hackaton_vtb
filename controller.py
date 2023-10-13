@@ -8,12 +8,12 @@ import sys
 
 # database = 'horoscope'
 Base = declarative_base()
-user = "USER"
-password = "PASSWORD"
-host = "HOST"
+user = "hackaton_user"
+password = "Sergey123()"
+host = "185.209.29.236"
 port = 3306
 
-database = "new_astro_data_base"
+database = "hackaton"
 connection_string = "mysql+pymysql://{0}:{1}@{2}:{3}/{4}".format(
     user, password, host, port, database
 )
