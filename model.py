@@ -13,21 +13,22 @@ from controller import engine, Base, Session
 from datetime import datetime
 
 
-# class User(Base):
-#     """_summary_
-
-#     Args:
-#         Base (_type_): _description_
-#     """
-#     __tablename__="user"
-#     pass
-
 
 class Bank(Base):
-    """_summary_
-
-    Args:
-        Base (_type_): _description_
+    """
+    id - int
+    latitude-Float (широта)
+    longitude - Float(долгота)
+    address- string (адрес)
+    type-string (office/tms)
+    name-string (название)
+    open_hours-json
+    metro_station-str
+    number_of_people-int количество человек в отделении
+    support_usd - bool (поддерживает ли выдачу в долларах)
+    support_euro - bool (поддерживает ли выдачу в евро)
+    usd_available - bool (доступны ли сейчас доллары )
+    euro_available - (доступны ли евро)
     """
 
     __tablename__ = "banks"

@@ -1,5 +1,3 @@
-1) make a venv( in terminal: python -m venv /hackaton_vtb)
-2) in terminal: $pip install -r requirements.txt
-3) python/python3 run.py
-4) start coding
-   
+$python app.py запускает бэкенд проекта
+$python people_counter.py --prototxt detector/MobileNetSSD_deploy.prototxt --model detector/MobileNetSSD_deploy.caffemodel --input <ip>:<host>
+ запускает на отдельной камере подсчет людей в отделении втб(необходимо вписать id и host)

@@ -2,7 +2,7 @@ from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from flask import Flask, jsonify, request, render_template, abort
-from flask_cors import CORS
+from flask_cors import CORS,cross_origin
 import sys
 
 
@@ -25,10 +25,11 @@ Session = sessionmaker(engine)()
 
 
 app = Flask(__name__, static_folder="static")
-CORS(app)
+CORS(app,resources={r"/api/*": {"origins": "*"}})
+
 if sys.platform == "win32":
     HOST = "0.0.0.0"
     PORT = 5000
 else:
-    HOST = "185.209.29.236"
-    PORT = "5000"
+    HOST = "localhost"
+    PORT = 9002
