@@ -4,8 +4,8 @@ import json
 from controller import *
 import os
 
-
 number_of_people_in_bank = dict()
+average_waiting_time = dict()
 
 
 def dir_last_updated(folder):
@@ -27,9 +27,9 @@ def testing_route():
 def update_people_info():
     global number_of_people_in_bank
     data = json.loads(request.get_json())
-    id = data["id"]
-    total = data["total"]
-    number_of_people_in_bank[id] = total
+    id=data["id"]
+    total=data["total"]
+    number_of_people_in_bank[id]=total
 
 
 @app.route("/api/get_points", methods=["POST", "GET"])
@@ -64,8 +64,10 @@ def get_best_points():
     )
 
     for bank in banks:
-        try:  
+        try:
             bank["number_of_people"] = number_of_people_in_bank[bank["id"]]
+            bank["average_waiting_time"] = average_waiting_time[bank["id"]]
         except:
+            bank["average_waiting_time"] = 15
             bank["number_of_people"] = 0
     return json.dumps(banks)
