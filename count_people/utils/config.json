@@ -3,10 +3,11 @@
     "Email_Receive": "",
     "Email_Password": "",
     "url": "",
-    "ALERT": false,
+    "ALERT": true,
     "Threshold": 10,
     "Thread": false,
     "Log": false,
     "Scheduler": false,
-    "Timer": false
+    "Timer": false,
+    "id":1
 }
