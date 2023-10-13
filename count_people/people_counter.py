@@ -22,6 +22,8 @@ import requests
 
 def average_time(lst_income: list, lst_outcome: list):
     ln_people_inside = len(lst_outcome)
+    lst_income = map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_income)
+    lst_outcome = map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_outcome)
     lst_income = lst_income[:ln_people_inside]
     return (sum(lst_outcome) - sum(lst_income)) / ln_people_inside
 
