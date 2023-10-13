@@ -18,7 +18,7 @@ import json
 import csv
 import cv2
 import requests
-
+# from ulits/ulits.py import average_time
 # execution start time
 start_time = time.time()
 # setup logger
@@ -147,7 +147,9 @@ def people_counter():
     move_in = []
     out_time = []
     in_time = []
-
+    # svb new
+    income_time = []
+    outcome_time = []
     # start the frames per second throughput estimator
     fps = FPS().start()
 
@@ -315,6 +317,7 @@ def people_counter():
                         date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
                         move_in.append(totalDown)
                         in_time.append(date_time)
+                        income_time.append(date_time)
                         # if the people limit exceeds over threshold, send an email alert
                         if sum(total) >= config["Threshold"]:
                             cv2.putText(
@@ -338,7 +341,7 @@ def people_counter():
                         total.append(len(move_in) - len(move_out))
                         requests.post(
                             url + "cam_info_change",
-                            json={"id": id, "total": len(total)},
+                            json={"id": id, "total": len(total), "av_time":av_time},
                         )
                         # print(total[0])
 
