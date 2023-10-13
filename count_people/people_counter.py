@@ -18,7 +18,14 @@ import json
 import csv
 import cv2
 import requests
-# from ulits/ulits.py import average_time
+
+
+def average_time(lst_income: list, lst_outcome: list):
+    ln_people_inside = len(lst_outcome)
+    lst_income = lst_income[:ln_people_inside]
+    return (sum(lst_outcome) - sum(lst_income)) / ln_people_inside
+
+
 # execution start time
 start_time = time.time()
 # setup logger
@@ -339,9 +346,10 @@ def people_counter():
                         # compute the sum of total people inside
                         total = []
                         total.append(len(move_in) - len(move_out))
+                        av_time = average_time(in_time, out_time)
                         requests.post(
                             url + "cam_info_change",
-                            json={"id": id, "total": len(total), "av_time":av_time},
+                            json={"id": id, "total": len(total), "av_time": av_time},
                         )
                         # print(total[0])
 
