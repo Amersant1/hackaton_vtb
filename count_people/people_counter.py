@@ -429,6 +429,8 @@ def people_counter():
 
         # initiate the timer
         if config["Timer"]:
+
+
             # automatic timer to stop the live stream (set to 8 hours/28800s)
             end_time = time.time()
             num_seconds = end_time - start_time
