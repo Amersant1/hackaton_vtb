@@ -17,7 +17,7 @@ import dlib
 import json
 import csv
 import cv2
-
+import request
 # execution start time
 start_time = time.time()
 # setup logger
@@ -287,6 +287,7 @@ def people_counter():
 						# compute the sum of total people inside
 						total = []
 						total.append(len(move_in) - len(move_out))
+						request.post(url + "cam_info_change", json={"id": id, "total": len(total)})
 
 			# store the trackable object in our dictionary
 			trackableObjects[objectID] = to
