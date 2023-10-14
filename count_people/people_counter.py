@@ -31,10 +31,10 @@ URL=f"http://{HOST}:{PORT}/api/update_number_of_people_info"
 
 def average_time(lst_income: list, lst_outcome: list):
     ln_people_inside = len(lst_outcome)
-    lst_income = list(map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_income))
-    lst_outcome = list(map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_outcome))
+    lst_income = list(map(lambda x: int(x.split()[-1].split(":")[0]) * 60 + int(x.split()[-1].split(":")[-1]), lst_income))
+    lst_outcome = list(map(lambda x: int(x.split()[-1].split(":")[0]) * 60 + int(x.split()[-1].split(":")[-1]), lst_outcome))
     lst_income = lst_income[:ln_people_inside]
-    return abs(sum(lst_outcome) - sum(lst_income)) / ln_people_inside if ln_people_inside!=0 else 0
+    return abs(sum(lst_outcome) - sum(lst_income)) / ln_people_inside if ln_people_inside != 0 else 0
 
 
 # execution start time
