@@ -8,7 +8,7 @@ import os
 
 number_of_people_in_bank = dict()
 average_waiting_time = dict()
-
+income_freq = dict()
 
 def dir_last_updated(folder):
     return str(
@@ -29,12 +29,15 @@ def testing_route():
 def update_people_info():
     global number_of_people_in_bank
     global average_waiting_time
+    global income_freq
     data = json.loads(request.get_json())
     id = data["id"]
     total = data["total"]
     av_tm = data["av_time"]
+    in_freq = data["income_freq"]
     number_of_people_in_bank[id] = total
     average_waiting_time[id] = av_tm
+    income_freq[id]= in_freq
     print(number_of_people_in_bank)
     return json.dumps(True)
 
@@ -44,6 +47,7 @@ def update_people_info():
 def get_best_points():
     global number_of_people_in_bank
     global average_waiting_time
+    global income_freq
     print(number_of_people_in_bank)
     data = json.loads(request.get_json())
     if "usd_available" in data:
@@ -77,6 +81,7 @@ def get_best_points():
         try:
             bank["number_of_people"] = number_of_people_in_bank[bank["id"]]
             bank["average_waiting_time"] = average_waiting_time[bank["id"]]
+            # bank["income_freq"] = income_freq[bank["id"]]
         except:
             bank["average_waiting_time"] = 15
             bank["number_of_people"] = 0
