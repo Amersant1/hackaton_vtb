@@ -85,6 +85,8 @@ def parse_arguments():
     ap.add_argument(
         "-o", "--output", type=str, help="path to optional output video file"
     )
+    ap.add_argument("-staff","--staff", type=int,help="number of people in staff team")
+    ap.add_argument("-salers","--salers",type=int,help="number of salers")
     # confidence default 0.4
     ap.add_argument(
         "-c",
@@ -163,7 +165,10 @@ def people_counter(idd=2349, number_of_staff=5, number_of_salers=1):
     else:
         logger.info("Starting the video..")
         vs = cv2.VideoCapture(args["input"])
-
+    if args.get("salers"):
+        number_of_salers=args["salers"]
+    if args.get("staff"):
+        number_of_staff=args["staff"]
     # initialize the video writer (we'll instantiate later if need be)
     writer = None
 
@@ -390,8 +395,8 @@ def people_counter(idd=2349, number_of_staff=5, number_of_salers=1):
                         total.append(len(move_in) - len(move_out))
                         av_time = average_time_of_being_inside(in_time, out_time)
                         income_freq = arrival_frequency(in_time)
-                        if number_of_staff > total[0]:
-                            total[0] += number_of_staff
+                        # if number_of_staff > total[0]:
+                        #     total[0] += number_of_staff
                         print(
                             {
                                 "id": int(idd),
@@ -406,7 +411,7 @@ def people_counter(idd=2349, number_of_staff=5, number_of_salers=1):
 
                         req = requests.post(
                             URL,
-                            json=json.dumps(
+                            json=
                                 {
                                     "id": idd,
                                     "number_of_people": total[0],
@@ -416,7 +421,7 @@ def people_counter(idd=2349, number_of_staff=5, number_of_salers=1):
                                     "number_of_salers": number_of_salers,
                                     "math_expectation": math_expectation_cnt(idd),
                                 }
-                            ),
+                            ,
                         )
                         # print(req.content)
                         # print(total[0])

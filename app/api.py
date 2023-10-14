@@ -29,7 +29,7 @@ def testing_route():
 @app.route("/api/update_number_of_people_info", methods=["POST", "GET"])
 def update_people_info():
 
-    data = json.loads(request.get_json())
+    data = request.get_json()
     id = data["id"]
     print(data)
     number_of_people = data["number_of_people"]
