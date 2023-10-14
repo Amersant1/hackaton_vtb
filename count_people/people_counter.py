@@ -30,17 +30,24 @@ else:
 URL = f"http://{HOST}:{PORT}/api/update_number_of_people_info"
 
 
-def average_time(lst_income: list, lst_outcome: list):
+def q(x):
+    x = x.split()
+    x = x[-1].split(":")
+    return int(x[0]) * 3600 + int(x[1]) * 60 + int(x[-1])
+
+
+def average_time_of_being_inside(lst_income: list, lst_outcome: list):
     ln_people_inside = len(lst_outcome)
-
-    def q(x):
-        x = x.split(":")
-        return int(x[0]) * 3600 + int(x[1]) * 60 + + int(x[-1])
-
     lst_income = list(map(lambda x: q(x), lst_income))
     lst_outcome = list(map(lambda x: q(x), lst_outcome))
     lst_income = lst_income[:ln_people_inside]
     return abs(sum(lst_outcome) - sum(lst_income)) / ln_people_inside if ln_people_inside != 0 else 0
+
+
+def arrival_frequency(lst_income: list):
+    lst_income = list(map(lambda x: q(x), lst_income))
+    lst_income = list(map(lambda x: abs(x[0] - x[1]), list(zip(lst_income[1:], lst_income))))
+    return sum(lst_income) / len(lst_income) if len(lst_income) != 0 else 0
 
 
 # execution start time
@@ -328,7 +335,7 @@ def people_counter():
                     # line, count the object
                     if direction < 0 and centroid[1] < H // 2:
                         totalUp += 1
-                        date_time = datetime.datetime.now().strftime("%H:%M:%S")
+                        date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         # print("<-" * 10, date_time)
                         move_out.append(totalUp)
                         out_time.append(date_time)
@@ -339,7 +346,7 @@ def people_counter():
                     # center line, count the object
                     elif direction > 0 and centroid[1] > H // 2:
                         totalDown += 1
-                        date_time = datetime.datetime.now().strftime("%H:%M:%S")
+                        date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         # print("->" *10, date_time)
                         move_in.append(totalDown)
                         in_time.append(date_time)
@@ -365,10 +372,13 @@ def people_counter():
                         # compute the sum of total people inside
                         total = []
                         total.append(len(move_in) - len(move_out))
-                        av_time = average_time(in_time, out_time)
+                        av_time = average_time_of_being_inside(in_time, out_time)
+                        income_freq = arrival_frequency(in_time)
+
                         req = requests.post(
                             URL,
-                            json=json.dumps({"id": 2349, "total": total[0], "av_time": av_time}),
+                            json=json.dumps(
+                                {"id": 2349, "total": total[0], "av_time": av_time, "income_freq": income_freq}),
                         )
                         # print(req.content)
                         # print(total[0])

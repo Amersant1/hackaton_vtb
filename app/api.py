@@ -28,6 +28,7 @@ def testing_route():
 def update_people_info():
     global number_of_people_in_bank
     global average_waiting_time
+    global income_freq
     data = json.loads(request.get_json())
     id = data["id"]
     number_of_people=data["number_of_people"]
@@ -50,6 +51,7 @@ def update_people_info():
 def get_best_points():
     global number_of_people_in_bank
     global average_waiting_time
+    global income_freq
     print(number_of_people_in_bank)
     data = json.loads(request.get_json())
     if "usd_available" in data:
