@@ -2,6 +2,7 @@ from controller import *
 from model import *
 import json
 from data_base import *
+from random import *
 
 if __name__ == "__main__":
     _session = make_session()
@@ -87,3 +88,78 @@ if __name__ == "__main__":
             _session.add(bank1)
     _session.commit()
     _session.close()
+
+def get_info_about_number_of_people_came():
+    _session=make_session()
+    banks=_session.query(Bank).filter(Bank.type=="office").all()
+    list_of_banks=dict()
+    
+    for bank in banks:
+        dictionary=dict()
+        #первое значение-время ожидания,2-значение колитчество за прошедний годб 3- вероятность события, 
+        number_of_clients=randint(10000,100000)
+        n=0
+        rand=randint(0,number_of_clients-n)
+        dictionary["number_of_clients"]=number_of_clients
+        make_card=[randint(5,10),rand,rand/number_of_clients,]
+        n+=rand
+        rand=randint(0,number_of_clients-n)
+        dictionary["make_card"]=make_card
+
+        mortgage=[randint(60,90),rand,rand/number_of_clients]
+        n+=rand
+        rand=randint(0,number_of_clients-n)
+        dictionary["mortgage"]=mortgage
+
+
+        insurance=[randint(30,40),rand,rand/number_of_clients]
+        dictionary["insurance"]=insurance
+        n+=rand
+        rand=randint(0,number_of_clients-n)
+        
+        credit=[randint(30,60),rand,rand/number_of_clients]
+        dictionary["credit"]=credit
+        n+=rand
+        rand=randint(0,number_of_clients-n)
+
+        poshlina=[randint(15,30),rand,rand/number_of_clients]
+        dictionary["poshlina"]=poshlina
+        n+=rand
+        rand=randint(0,number_of_clients-n)
+
+        payments=[randint(10,15),rand,rand/number_of_clients]
+        dictionary["payments"]=payments
+        n+=rand
+        rand=randint(0,number_of_clients-n)
+
+        deposit=[randint(20,40),rand,rand/number_of_clients]
+        dictionary["deposit"]=deposit
+        n+=rand
+        rand=randint(0,number_of_clients-n)
+        
+        check_info=[randint(10,15),rand,rand/number_of_clients]
+        dictionary["check_info"]=check_info
+        rand=randint(0,number_of_clients-n)
+        n+=rand
+
+        government_pay=[randint(20,25),rand,rand/number_of_clients]
+        dictionary["government_pay"]=government_pay
+        rand=randint(0,number_of_clients-n)
+        n+=rand
+        
+        math_expectation=int()
+        for key in dictionary.keys():
+            list1=dictionary[key]
+            if key!="number_of_clients":
+                math_expectation+=list1[2]*list1[0]
+        if math_expectation>20:
+            math_expectation=20
+        dictionary["math_expectation"]=math_expectation
+        list_of_banks[bank.id]=dictionary
+    
+    with open("math_expectation.json","w") as file:
+        print(json.dumps(list_of_banks),file=file)
+    
+
+        
+get_info_about_number_of_people_came()
