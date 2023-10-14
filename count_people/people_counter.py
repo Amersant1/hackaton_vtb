@@ -19,6 +19,7 @@ import csv
 import cv2
 import requests
 import sys
+
 if sys.platform == "win32":
     HOST = "localhost"
     PORT = 5000
@@ -26,15 +27,20 @@ else:
     HOST = "localhost"
     PORT = 9002
 
+URL = f"http://{HOST}:{PORT}/api/update_number_of_people_info"
 
-URL=f"http://{HOST}:{PORT}/api/update_number_of_people_info"
 
 def average_time(lst_income: list, lst_outcome: list):
     ln_people_inside = len(lst_outcome)
-    lst_income = list(map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_income))
-    lst_outcome = list(map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_outcome))
+
+    def q(x):
+        x = x.split(":")
+        return int(x[0]) * 3600 + int(x[1]) * 60 + + int(x[-1])
+
+    lst_income = list(map(lambda x: q(x), lst_income))
+    lst_outcome = list(map(lambda x: q(x), lst_outcome))
     lst_income = lst_income[:ln_people_inside]
-    return abs(sum(lst_outcome) - sum(lst_income)) / ln_people_inside if ln_people_inside!=0 else 0
+    return abs(sum(lst_outcome) - sum(lst_income)) / ln_people_inside if ln_people_inside != 0 else 0
 
 
 # execution start time
@@ -322,7 +328,8 @@ def people_counter():
                     # line, count the object
                     if direction < 0 and centroid[1] < H // 2:
                         totalUp += 1
-                        date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                        date_time = datetime.datetime.now().strftime("%H:%M:%S")
+                        # print("<-" * 10, date_time)
                         move_out.append(totalUp)
                         out_time.append(date_time)
                         to.counted = True
@@ -332,7 +339,8 @@ def people_counter():
                     # center line, count the object
                     elif direction > 0 and centroid[1] > H // 2:
                         totalDown += 1
-                        date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                        date_time = datetime.datetime.now().strftime("%H:%M:%S")
+                        # print("->" *10, date_time)
                         move_in.append(totalDown)
                         in_time.append(date_time)
                         income_time.append(date_time)
@@ -358,11 +366,11 @@ def people_counter():
                         total = []
                         total.append(len(move_in) - len(move_out))
                         av_time = average_time(in_time, out_time)
-                        req=requests.post(
+                        req = requests.post(
                             URL,
                             json=json.dumps({"id": 2349, "total": total[0], "av_time": av_time}),
                         )
-                        print(req.content)
+                        # print(req.content)
                         # print(total[0])
 
             # store the trackable object in our dictionary
