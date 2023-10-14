@@ -22,10 +22,10 @@ import requests
 
 def average_time(lst_income: list, lst_outcome: list):
     ln_people_inside = len(lst_outcome)
-    lst_income = map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_income)
-    lst_outcome = map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_outcome)
+    lst_income = list(map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_income))
+    lst_outcome = list(map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_outcome))
     lst_income = lst_income[:ln_people_inside]
-    return abs(sum(list(lst_outcome)) - sum(list(lst_income))) / ln_people_inside
+    return abs(sum(lst_outcome) - sum(lst_income)) / ln_people_inside if ln_people_inside!=0 else 0
 
 
 # execution start time
@@ -347,6 +347,7 @@ def people_counter():
                         to.counted = True
                         # compute the sum of total people inside
                         total = []
+                        # url= "Localhos/ap/mrthod"
                         total.append(len(move_in) - len(move_out))
                         av_time = average_time(in_time, out_time)
                         requests.post(

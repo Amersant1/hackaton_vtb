@@ -1,5 +1,7 @@
 from utils import *
+# import utils.utils
 from data_base import *
+# import data_base.bank, data_base.user
 import json
 from controller import *
 import os
@@ -26,10 +28,13 @@ def testing_route():
 @app.route("/api/update_number_of_people_info")
 def update_people_info():
     global number_of_people_in_bank
+    global average_waiting_time
     data = json.loads(request.get_json())
     id=data["id"]
     total=data["total"]
+    av_tm=data["av_time"]
     number_of_people_in_bank[id]=total
+    average_waiting_time[id] = av_tm
 
 
 @app.route("/api/get_points", methods=["POST", "GET"])
