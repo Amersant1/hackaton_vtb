@@ -380,6 +380,7 @@ def people_counter(idd=2349, number_of_staff=30, number_of_salers=4):
                         total.append(len(move_in) - len(move_out))
                         av_time = average_time_of_being_inside(in_time, out_time)
                         income_freq = arrival_frequency(in_time)
+
                         print({"id": idd, "number_of_people": total[0], "av_time": av_time, "income_freq": income_freq, "number_of_staff": number_of_staff,
                                "number_of_salers": number_of_salers, "math_expectation": math_expectation_cnt(idd)})
 
