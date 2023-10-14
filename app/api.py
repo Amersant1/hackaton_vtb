@@ -30,13 +30,14 @@ def update_people_info():
     global number_of_people_in_bank
     global average_waiting_time
     data = json.loads(request.get_json())
-    id=data["id"]
-    total=data["total"]
-    av_tm=data["av_time"]
-    number_of_people_in_bank[id]=total
+    id = data["id"]
+    total = data["total"]
+    av_tm = data["av_time"]
+    number_of_people_in_bank[id] = total
     average_waiting_time[id] = av_tm
     print(number_of_people_in_bank)
     return json.dumps(True)
+
 
 @app.route("/api/get_points", methods=["POST", "GET"])
 @cross_origin()
@@ -52,7 +53,7 @@ def get_best_points():
     if "euro_available" in data:
         euro_available = True
     else:
-        euro_available = None 
+        euro_available = None
     if "offset" in data:
         offset = data["offset"]
     else:
