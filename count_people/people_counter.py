@@ -25,7 +25,7 @@ def average_time(lst_income: list, lst_outcome: list):
     lst_income = map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_income)
     lst_outcome = map(lambda x: x.split()[-1].split(":")[0] * 60 + x.split()[-1].split(":")[-1], lst_outcome)
     lst_income = lst_income[:ln_people_inside]
-    return (sum(lst_outcome) - sum(lst_income)) / ln_people_inside
+    return abs(sum(list(lst_outcome)) - sum(list(lst_income))) / ln_people_inside
 
 
 # execution start time
@@ -429,7 +429,6 @@ def people_counter():
 
         # initiate the timer
         if config["Timer"]:
-
 
             # automatic timer to stop the live stream (set to 8 hours/28800s)
             end_time = time.time()
