@@ -50,8 +50,8 @@ def arrival_frequency(lst_income: list):
     return sum(lst_income) / len(lst_income) if len(lst_income) != 0 else 0
 
 def math_expectation_cnt(idd):
-    x = open("math_expectation.json").readline()
-    d = eval(x)
+    x = open("math_expectation.json").read()
+    d = json.loads(x)
     return d[str(idd)]["math_expectation"]
 
 # execution start time
@@ -116,7 +116,7 @@ def log_data(move_in, in_time, move_out, out_time):
             wr.writerows(export_data)
 
 
-def people_counter(idd=2349, number_of_staff=30, number_of_salers=4):
+def people_counter(idd=2349, number_of_staff=5, number_of_salers=1):
     # main function for people_counter.py
     args = parse_arguments()
     # initialize the list of class labels MobileNet SSD was trained to detect
@@ -380,8 +380,9 @@ def people_counter(idd=2349, number_of_staff=30, number_of_salers=4):
                         total.append(len(move_in) - len(move_out))
                         av_time = average_time_of_being_inside(in_time, out_time)
                         income_freq = arrival_frequency(in_time)
-
-                        print({"id": idd, "number_of_people": total[0], "av_time": av_time, "income_freq": income_freq, "number_of_staff": number_of_staff,
+                        if number_of_staff>total[0]:
+                            total[0]+=number_of_staff
+                        print({"id": int(idd), "number_of_people": total[0], "av_time": av_time, "income_freq": income_freq, "number_of_staff": number_of_staff,
                                "number_of_salers": number_of_salers, "math_expectation": math_expectation_cnt(idd)})
 
                         req = requests.post(

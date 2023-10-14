@@ -26,11 +26,10 @@ def testing_route():
 
 @app.route("/api/update_number_of_people_info", methods=["POST", "GET"])
 def update_people_info():
-    global number_of_people_in_bank
-    global average_waiting_time
-    global income_freq
+    
     data = json.loads(request.get_json())
     id = data["id"]
+    print(data)
     number_of_people=data["number_of_people"]
     number_of_staff=data["number_of_staff"]
     number_of_salers=data["number_of_salers"]
@@ -49,11 +48,9 @@ def update_people_info():
 @app.route("/api/get_points", methods=["POST", "GET"])
 @cross_origin()
 def get_best_points():
-    global number_of_people_in_bank
-    global average_waiting_time
-    global income_freq
-    print(number_of_people_in_bank)
+    global banks_info
     data = json.loads(request.get_json())
+    print(data)
     if "usd_available" in data:
         usd_available = True
     else:
@@ -84,6 +81,8 @@ def get_best_points():
     for bank in banks:
         try:
             bank["waiting_time"]=banks_info[bank["id"]].waiting_time
-        except:
+        except Exception as err:
+            print(err)
             bank["waiting_time"]=0
+    print(bank)
     return json.dumps(banks)
