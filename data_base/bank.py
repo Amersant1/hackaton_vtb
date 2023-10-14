@@ -17,35 +17,35 @@ def find_nearest_banks(
     usd_available: bool = None,
     euro_available: bool = None,
     limit: int = 15,
-    offset: int = 0
+    offset: int = 0,
 ):  # limit-количество банков, которое вернуть
     _session = make_session()
     filters = list()
     bank = select(Bank)
 
-    if usd_available!=None:
-        bank=bank.where(Bank.usd_available == True)
+    if usd_available != None:
+        bank = bank.where(Bank.usd_available == True)
 
-    if euro_available!=None:
-        bank=bank.where(Bank.euro_available == True)
+    if euro_available != None:
+        bank = bank.where(Bank.euro_available == True)
 
-    if type!=None:
-        bank=bank.where(Bank.type == type.lower)
+    if type != None:
+        bank = bank.where(Bank.type == type.lower)
 
-    bank=(bank.order_by(
+    bank = (
+        bank.order_by(
             (Bank.latitude - latitude) * (Bank.latitude - latitude)
             + (Bank.longitude - longitude) * (Bank.longitude - longitude)
-        )#сортируем по расстоянию от юзера до отделения/банкомата
+        )  # сортируем по расстоянию от юзера до отделения/банкомата
         .offset(offset)
         .limit(limit)
     )
 
     banks = _session.scalars(bank)
-        
 
     banks = list(banks)
     for i in range(len(banks)):
-        banks[i] = banks[i].__dict__ #превращаем объект в словарь и удаляем ненужный ключ 
+        banks[i] = banks[i].__dict__  # превращаем объект в словарь и удаляем ненужный ключ
         del banks[i]["_sa_instance_state"]
     _session.close()
 

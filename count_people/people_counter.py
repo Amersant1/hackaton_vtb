@@ -41,18 +41,26 @@ def average_time_of_being_inside(lst_income: list, lst_outcome: list):
     lst_income = list(map(lambda x: q(x), lst_income))
     lst_outcome = list(map(lambda x: q(x), lst_outcome))
     lst_income = lst_income[:ln_people_inside]
-    return abs(sum(lst_outcome) - sum(lst_income)) / ln_people_inside if ln_people_inside != 0 else 0
+    return (
+        abs(sum(lst_outcome) - sum(lst_income)) / ln_people_inside
+        if ln_people_inside != 0
+        else 0
+    )
 
 
 def arrival_frequency(lst_income: list):
     lst_income = list(map(lambda x: q(x), lst_income))
-    lst_income = list(map(lambda x: abs(x[0] - x[1]), list(zip(lst_income[1:], lst_income))))
+    lst_income = list(
+        map(lambda x: abs(x[0] - x[1]), list(zip(lst_income[1:], lst_income)))
+    )
     return sum(lst_income) / len(lst_income) if len(lst_income) != 0 else 0
+
 
 def math_expectation_cnt(idd):
     x = open("math_expectation.json").read()
     d = json.loads(x)
     return d[str(idd)]["math_expectation"]
+
 
 # execution start time
 start_time = time.time()
@@ -62,8 +70,6 @@ logger = logging.getLogger(__name__)
 # initiate features config.
 with open("utils/config.json", "r") as file:
     config = json.load(file)
-
-
 
 
 def parse_arguments():
@@ -341,7 +347,9 @@ def people_counter(idd=2349, number_of_staff=5, number_of_salers=1):
                     # line, count the object
                     if direction < 0 and centroid[1] < H // 2:
                         totalUp += 1
-                        date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        date_time = datetime.datetime.now().strftime(
+                            "%Y-%m-%d %H:%M:%S"
+                        )
                         # print("<-" * 10, date_time)
                         move_out.append(totalUp)
                         out_time.append(date_time)
@@ -352,7 +360,9 @@ def people_counter(idd=2349, number_of_staff=5, number_of_salers=1):
                     # center line, count the object
                     elif direction > 0 and centroid[1] > H // 2:
                         totalDown += 1
-                        date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        date_time = datetime.datetime.now().strftime(
+                            "%Y-%m-%d %H:%M:%S"
+                        )
                         # print("->" *10, date_time)
                         move_in.append(totalDown)
                         in_time.append(date_time)
@@ -380,17 +390,33 @@ def people_counter(idd=2349, number_of_staff=5, number_of_salers=1):
                         total.append(len(move_in) - len(move_out))
                         av_time = average_time_of_being_inside(in_time, out_time)
                         income_freq = arrival_frequency(in_time)
-                        if number_of_staff>total[0]:
-                            total[0]+=number_of_staff
-                        print({"id": int(idd), "number_of_people": total[0], "av_time": av_time, "income_freq": income_freq, "number_of_staff": number_of_staff,
-                               "number_of_salers": number_of_salers, "math_expectation": math_expectation_cnt(idd)})
+                        if number_of_staff > total[0]:
+                            total[0] += number_of_staff
+                        print(
+                            {
+                                "id": int(idd),
+                                "number_of_people": total[0],
+                                "av_time": av_time,
+                                "income_freq": income_freq,
+                                "number_of_staff": number_of_staff,
+                                "number_of_salers": number_of_salers,
+                                "math_expectation": math_expectation_cnt(idd),
+                            }
+                        )
 
                         req = requests.post(
                             URL,
                             json=json.dumps(
-                                {"id": idd, "number_of_people": total[0], "av_time": av_time,
-                                 "income_freq": income_freq, "number_of_staff": number_of_staff,
-                                 "number_of_salers": number_of_salers, "math_expectation": math_expectation_cnt(idd)}),
+                                {
+                                    "id": idd,
+                                    "number_of_people": total[0],
+                                    "av_time": av_time,
+                                    "income_freq": income_freq,
+                                    "number_of_staff": number_of_staff,
+                                    "number_of_salers": number_of_salers,
+                                    "math_expectation": math_expectation_cnt(idd),
+                                }
+                            ),
                         )
                         # print(req.content)
                         # print(total[0])

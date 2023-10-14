@@ -1,12 +1,15 @@
 from utils import *
+
 # import utils.utils
 from data_base import *
+
 # import data_base.bank, data_base.user
 import json
 from controller import *
 import os
 
-banks_info=dict()
+banks_info = dict()
+
 
 def dir_last_updated(folder):
     return str(
@@ -25,20 +28,31 @@ def testing_route():
 
 @app.route("/api/update_number_of_people_info", methods=["POST", "GET"])
 def update_people_info():
-    
+
     data = json.loads(request.get_json())
     id = data["id"]
     print(data)
-    number_of_people=data["number_of_people"]
-    number_of_staff=data["number_of_staff"]
-    number_of_salers=data["number_of_salers"]
-    math_expectation=data["math_expectation"]
+    number_of_people = data["number_of_people"]
+    number_of_staff = data["number_of_staff"]
+    number_of_salers = data["number_of_salers"]
+    math_expectation = data["math_expectation"]
     if id in banks_info:
-        
-        banks_info[id].update_info(number_of_people=number_of_people,number_of_staff=number_of_staff,number_of_salers=number_of_salers,math_expectation=math_expectation)
-        
+
+        banks_info[id].update_info(
+            number_of_people=number_of_people,
+            number_of_staff=number_of_staff,
+            number_of_salers=number_of_salers,
+            math_expectation=math_expectation,
+        )
+
     else:
-        banks_info[id]=BankInfo(id=id,number_of_people=number_of_people,number_of_staff=number_of_staff,number_of_salers=number_of_salers,math_expectation=math_expectation)
+        banks_info[id] = BankInfo(
+            id=id,
+            number_of_people=number_of_people,
+            number_of_staff=number_of_staff,
+            number_of_salers=number_of_salers,
+            math_expectation=math_expectation,
+        )
 
     # print(number_of_people_in_bank)
     return json.dumps(True)
@@ -48,7 +62,7 @@ def update_people_info():
 @cross_origin()
 def get_best_points():
     global banks_info
-    data = json.loads(request.get_json())
+    data = request.get_json()
     print(data)
     if "usd_available" in data:
         usd_available = True
@@ -79,9 +93,9 @@ def get_best_points():
 
     for bank in banks:
         try:
-            bank["waiting_time"]=banks_info[bank["id"]].waiting_time
+            bank["waiting_time"] = banks_info[bank["id"]].waiting_time
         except Exception as err:
             print(err)
-            bank["waiting_time"]=0
+            bank["waiting_time"] = 0
     print(bank)
     return json.dumps(banks)

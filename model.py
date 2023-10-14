@@ -13,7 +13,6 @@ from controller import engine, Base, Session
 from datetime import datetime
 
 
-
 class Bank(Base):
     """
     id - int
