@@ -13,10 +13,11 @@ def make_session():
 def find_nearest_banks(
     latitude: float,
     longitude: float,
+    type: str = None,
     usd_available: bool = None,
     euro_available: bool = None,
     limit: int = 15,
-    offset: int = 0,
+    offset: int = 0
 ):  # limit-количество банков, которое вернуть
     _session = make_session()
     filters = list()
@@ -24,6 +25,8 @@ def find_nearest_banks(
         filters.append(Bank.usd_available == True)
     if euro_available:
         filters.append(Bank.euro_available == True)
+    if type:
+        filters.append(Bank.type == type.lower)
     filters = tuple(filters)#создаем фильтры для бд исходя аргументов, переданных в функцию
     if filters:#получаем limit отделений и банкоматов 
         banks = (
