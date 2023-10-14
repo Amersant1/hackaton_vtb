@@ -18,7 +18,16 @@ import json
 import csv
 import cv2
 import requests
+import sys
+if sys.platform == "win32":
+    HOST = "0.0.0.0"
+    PORT = 5000
+else:
+    HOST = "localhost"
+    PORT = 9002
 
+
+URL=f"http://{HOST}:{PORT}/api/update_number_of_people_info"
 
 def average_time(lst_income: list, lst_outcome: list):
     ln_people_inside = len(lst_outcome)
@@ -347,12 +356,11 @@ def people_counter():
                         to.counted = True
                         # compute the sum of total people inside
                         total = []
-                        # url= "Localhos/ap/mrthod"
                         total.append(len(move_in) - len(move_out))
                         av_time = average_time(in_time, out_time)
                         requests.post(
-                            url + "cam_info_change",
-                            json={"id": id, "total": len(total), "av_time": av_time},
+                            URL,
+                            json=json.dumps({"id": 2349, "total": len(total), "av_time": av_time}),
                         )
                         # print(total[0])
 

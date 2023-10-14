@@ -28,7 +28,7 @@ app = Flask(__name__, static_folder="static")
 CORS(app,resources={r"/api/*": {"origins": "*"}})
 
 if sys.platform == "win32":
-    HOST = "0.0.0.0"
+    HOST = "localhost"
     PORT = 5000
 else:
     HOST = "localhost"
