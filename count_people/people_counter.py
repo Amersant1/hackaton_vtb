@@ -20,7 +20,7 @@ import cv2
 import requests
 import sys
 if sys.platform == "win32":
-    HOST = "0.0.0.0"
+    HOST = "localhost"
     PORT = 5000
 else:
     HOST = "localhost"
@@ -358,10 +358,11 @@ def people_counter():
                         total = []
                         total.append(len(move_in) - len(move_out))
                         av_time = average_time(in_time, out_time)
-                        requests.post(
+                        req=requests.post(
                             URL,
-                            json=json.dumps({"id": 2349, "total": len(total), "av_time": av_time}),
+                            json=json.dumps({"id": 2349, "total": total[0], "av_time": av_time}),
                         )
+                        print(req.content)
                         # print(total[0])
 
             # store the trackable object in our dictionary
