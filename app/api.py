@@ -6,9 +6,8 @@ import json
 from controller import *
 import os
 
-number_of_people_in_bank = dict()
-average_waiting_time = dict()
-income_freq = dict()
+banks_info=dict()
+
 
 def dir_last_updated(folder):
     return str(
@@ -32,13 +31,18 @@ def update_people_info():
     global income_freq
     data = json.loads(request.get_json())
     id = data["id"]
-    total = data["total"]
-    av_tm = data["av_time"]
-    in_freq = data["income_freq"]
-    number_of_people_in_bank[id] = total
-    average_waiting_time[id] = av_tm
-    income_freq[id]= in_freq
-    print(number_of_people_in_bank)
+    number_of_people=data["number_of_people"]
+    number_of_staff=data["number_of_staff"]
+    number_of_salers=data["number_of_salers"]
+    math_expectation=data["math_expectation"]
+    if id in banks_info:
+        
+        banks_info[id].update_info(number_of_people=number_of_people,number_of_staff=number_of_staff,number_of_salers=number_of_salers,math_expectation=math_expectation)
+        
+    else:
+        banks_info[id]=BankInfo(id=id,number_of_people=number_of_people,number_of_staff=number_of_staff,number_of_salers=number_of_salers,math_expectation=math_expectation)
+
+    # print(number_of_people_in_bank)
     return json.dumps(True)
 
 
@@ -79,11 +83,7 @@ def get_best_points():
 
     for bank in banks:
         try:
-            bank["number_of_people"] = number_of_people_in_bank[bank["id"]]
-
-            bank["average_waiting_time"] = average_waiting_time[bank["id"]]
-            # bank["income_freq"] = income_freq[bank["id"]]
+            bank["waiting_time"]=banks_info[bank["id"]].waiting_time
         except:
-            bank["average_waiting_time"] = 15
-            bank["number_of_people"] = 0
+            bank["waiting_time"]=0
     return json.dumps(banks)
