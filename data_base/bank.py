@@ -21,34 +21,28 @@ def find_nearest_banks(
 ):  # limit-количество банков, которое вернуть
     _session = make_session()
     filters = list()
-    if usd_available:
-        filters.append(Bank.usd_available == True)
-    if euro_available:
-        filters.append(Bank.euro_available == True)
-    if type:
-        filters.append(Bank.type == type.lower)
-    filters = tuple(filters)#создаем фильтры для бд исходя аргументов, переданных в функцию
-    if filters:#получаем limit отделений и банкоматов 
-        banks = (
-            _session.query(Bank)
-            .filter(filters)
-            .order_by(
-                (Bank.latitude - latitude) * (Bank.latitude - latitude)
-                + (Bank.longitude - longitude) * (Bank.longitude - longitude)
-            )#сортируем по расстоянию от юзера до отделения/банкомата
-            .offset(offset)
-            .limit(limit)
-        )
-    else:
-        banks = (
-            _session.query(Bank)
-            .order_by(
-                (Bank.latitude - latitude) * (Bank.latitude - latitude)
-                + (Bank.longitude - longitude) * (Bank.longitude - longitude)
-            )#сортируем по расстоянию от юзера до отделения/банкомата
-            .offset(offset)
-            .limit(limit)
-        )
+    bank = select(Bank)
+
+    if usd_available!=None:
+        bank=bank.where(Bank.usd_available == True)
+
+    if euro_available!=None:
+        bank=bank.where(Bank.euro_available == True)
+
+    if type!=None:
+        bank=bank.where(Bank.type == type.lower)
+
+    bank=(bank.order_by(
+            (Bank.latitude - latitude) * (Bank.latitude - latitude)
+            + (Bank.longitude - longitude) * (Bank.longitude - longitude)
+        )#сортируем по расстоянию от юзера до отделения/банкомата
+        .offset(offset)
+        .limit(limit)
+    )
+
+    banks = _session.scalars(bank)
+        
+
     banks = list(banks)
     for i in range(len(banks)):
         banks[i] = banks[i].__dict__ #превращаем объект в словарь и удаляем ненужный ключ 

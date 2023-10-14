@@ -162,4 +162,4 @@ def get_info_about_number_of_people_came():
     
 
         
-get_info_about_number_of_people_came()
+# get_info_about_number_of_people_came()
