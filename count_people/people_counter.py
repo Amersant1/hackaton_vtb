@@ -116,7 +116,7 @@ def log_data(move_in, in_time, move_out, out_time):
             wr.writerows(export_data)
 
 
-def people_counter(idd=2349, number_of_staff=30, number_of_salers=4):
+def people_counter(idd=1, number_of_staff=30, number_of_salers=4):
     # main function for people_counter.py
     args = parse_arguments()
     # initialize the list of class labels MobileNet SSD was trained to detect
