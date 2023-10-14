@@ -6,9 +6,7 @@ import json
 from controller import *
 import os
 
-number_of_people_in_bank = dict()
-average_waiting_time = dict()
-income_freq = dict()
+banks_info=dict()
 
 def dir_last_updated(folder):
     return str(
