@@ -80,6 +80,7 @@ def get_best_points():
     for bank in banks:
         try:
             bank["number_of_people"] = number_of_people_in_bank[bank["id"]]
+
             bank["average_waiting_time"] = average_waiting_time[bank["id"]]
             # bank["income_freq"] = income_freq[bank["id"]]
         except:

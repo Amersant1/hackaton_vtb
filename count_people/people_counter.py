@@ -374,6 +374,7 @@ def people_counter():
                         total.append(len(move_in) - len(move_out))
                         av_time = average_time_of_being_inside(in_time, out_time)
                         income_freq = arrival_frequency(in_time)
+
                         req = requests.post(
                             URL,
                             json=json.dumps(

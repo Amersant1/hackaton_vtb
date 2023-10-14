@@ -11,3 +11,5 @@ json1 = {
 }
 x = requests.post(url=f"http://{HOST}:{PORT}/api/get_points", json=json.dumps(json1))
 print(x.content)
+from itertools import accumulate
+
