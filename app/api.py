@@ -61,9 +61,11 @@ def update_people_info():
 @app.route("/api/get_points", methods=["POST", "GET"])
 @cross_origin()
 def get_best_points():
+    """Обрабатывает запросы на ближайшие банкоматы с фронта
+    Параметры,которые мы получаем прописаны, в бд"""
     global banks_info
     data = request.get_json()
-    print(data)
+    
     if "usd_available" in data:
         usd_available = True
     else:

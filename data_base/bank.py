@@ -11,11 +11,11 @@ def make_session():
 
 
 def find_nearest_banks(
-    latitude: float,
-    longitude: float,
-    type: str = None,
-    usd_available: bool = None,
-    euro_available: bool = None,
+    latitude: float,#широта
+    longitude: float,#долгота 
+    type: str = None,# tms/office
+    usd_available: bool = None,#доступны ли доллары
+    euro_available: bool = None,#доступны ли евро
     limit: int = 15,
     offset: int = 0,
 ):  # limit-количество банков, которое вернуть

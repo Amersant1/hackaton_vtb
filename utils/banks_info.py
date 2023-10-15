@@ -1,10 +1,11 @@
-class BankInfo:
+class BankInfo:#класс для работы с информацией, поступающей с сервера computer vision
+    """класс для работы с информацией, поступающей с сервера computer vision"""
     id = int()
-    waiting_time = float()
-    _number_of_people = int()
-    _number_of_staff = int()
-    _number_of_salers = int()
-    _math_expectation = int()
+    waiting_time = float()#время ожидания
+    _number_of_people = int()# количество людей
+    _number_of_staff = int()# количество персонала
+    _number_of_salers = int()# количество консультантов 
+    _math_expectation = int()# мат ожидания на конкретном участке 
 
     def __init__(
         self, id, number_of_people, number_of_staff, number_of_salers, math_expectation
