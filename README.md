@@ -4,9 +4,10 @@
 
 
 1) Вам необходимо иметь python на компьютере
-2) Скачиваете все зависимости с помощью команды : $pip install -r .\requirements.txt
-3) Запускаете бекэнд с помощью команды в терминале $python app.py
-4) переходите в папку count_people и из нее запускаете программу, определяющую количество человек в помещении через команду для тестирования:
+2) Заходите в папку api
+3) Скачиваете все зависимости с помощью команды : $pip install -r .\requirements.txt
+4) Запускаете бекэнд с помощью команды в терминале $python app.py
+5) переходите в папку count_people и из нее запускаете программу, определяющую количество человек в помещении через команду для тестирования:
 
 $python people_counter.py --prototxt detector/MobileNetSSD_deploy.prototxt --model detector/MobileNetSSD_deploy.caffemodel --input utils/data/tests/test_1.mp4 --staff 10 --salers 5 
 
@@ -17,4 +18,4 @@ $python people_counter.py --prototxt detector/MobileNetSSD_deploy.prototxt --mod
 python people_counter.py --prototxt detector/MobileNetSSD_deploy.prototxt --model detector/MobileNetSSD_deploy.caffemodel --staff 10 --salers 5 
 
 
-5)--staff и --salers обозначают количество персонала и количество продавцов
+6)--staff и --salers обозначают количество персонала и количество продавцов
