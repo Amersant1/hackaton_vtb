@@ -19,3 +19,8 @@ python people_counter.py --prototxt detector/MobileNetSSD_deploy.prototxt --mode
 
 
 6)--staff и --salers обозначают количество персонала и количество продавцов
+
+7) Для того,чтобы запустить фронтэнд надо:
+8) зайти в папку web
+9) прописать команду : $npm i
+10) прописать команду : $npm run dev
