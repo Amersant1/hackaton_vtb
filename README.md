@@ -6,8 +6,9 @@
 1) Вам необходимо иметь python на компьютере
 2) Заходите в папку api
 3) Скачиваете все зависимости с помощью команды : $pip install -r .\requirements.txt
-4) Запускаете бекэнд с помощью команды в терминале $python app.py
-5) переходите в папку count_people и из нее запускаете программу, определяющую количество человек в помещении через команду для тестирования:
+4) Если необходимо подкючить проект к базе данных: в файлк api/controller.py введите свои данные в переменные user,password...
+5) Запускаете бекэнд с помощью команды в терминале $python app.py
+6) переходите в папку count_people и из нее запускаете программу, определяющую количество человек в помещении через команду для тестирования:
 
 $python people_counter.py --prototxt detector/MobileNetSSD_deploy.prototxt --model detector/MobileNetSSD_deploy.caffemodel --input utils/data/tests/test_1.mp4 --staff 10 --salers 5 
 
